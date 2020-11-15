@@ -64,8 +64,7 @@ sudo /etc/init.d/smbd restart
 
 
 # fan control
-cd /usr/bin
-sudo wget -O fan_ctrl.py https://github.com/Notnaim/ras_pi_4/blob/main/fan_control.py
+sudo mv /home/pi/ras_pi_4/fan_control.py /usr/bin/fan_control.py
 sudo chmod u+x /usr/bin/fan_ctrl.py
 sudo echo "[Unit]
 Description = PWM fan control
@@ -80,7 +79,6 @@ RestartSec = 5
 
 [Install]
 WantedBy = default.target" > /etc/systemd/system/fan_ctrl.service
-cd
 
 sudo systemctl --system daemon-reload
 sudo systemctl enable fan_ctrl.service
