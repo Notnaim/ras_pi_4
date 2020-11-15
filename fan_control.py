@@ -38,5 +38,5 @@ if __name__ == "__main__":
         elif current_cpu_temp >= CPU_TEMP_3:
             fan.ChangeDutyCycle(DUTY_CYCLE_3)
         else:
-            fan.ChangeDutyCycle(DUTY_CYCLE_0)  # Changing fan duty cycle to minimal value
+            fan.ChangeDutyCycle(DUTY_CYCLE_0)
         time.sleep(TEMP_CHECK)
