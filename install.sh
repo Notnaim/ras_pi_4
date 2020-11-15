@@ -21,16 +21,18 @@ echo -e "\e[1;32mInput Router IP address:\e[0m"
 read Router_IP
 echo -e "\e[1;32mInput Raspberry Pi static IP address:\e[0m"
 read Raspberry_IP
-echo "interface eth0
-static ip_address = ${Raspberry_IP}
-static routers = ${Router_IP}
-static domain_name_servers = ${Router_IP}
+echo "
+interface eth0
+static ip_address=${Raspberry_IP}
+static routers=${Router_IP}
+static domain_name_servers=${Router_IP}
 " >> /etc/dhcpcd.conf
 
-echo "interface wlan0
-static ip_address = ${Raspberry_IP}
-static routers = ${Router_IP}
-static domain_name_servers = ${Router_IP}
+echo "
+interface wlan0
+static ip_address=${Raspberry_IP}
+static routers=${Router_IP}
+static domain_name_servers=${Router_IP}
 " >> /etc/dhcpcd.conf
 
 echo "nodhcp" >> /etc/dhcpcd.conf
@@ -51,13 +53,14 @@ sudo chgrp smbgrp /home/${USER}/RPi4
 echo -e "\e[1;32mCreating samba ${USER} user password\e[0m"
 sudo smbpasswd -a ${USER}
 
-sudo echo "[RPi4]
-path = /home/${USER}/RPi4
-valid users = ${USER}
-writable = yes
-read only = no
-browsable = yes
-guest ok = no" >> /etc/samba/smb.conf
+sudo echo "
+[RPi4]
+path=/home/${USER}/RPi4
+valid users=${USER}
+writable=yes
+read only=no
+browsable=yes
+guest ok=no" >> /etc/samba/smb.conf
 
 sudo /etc/init.d/smbd start
 sudo /etc/init.d/smbd restart
@@ -73,7 +76,7 @@ After = default.target
 [Service]
 Type = simple
 User = ${USER}
-ExecStart = /usr/bin/python3 /usr/bin/fan_ctrl.py
+ExecStart = /usr/bin/python3 /usr/bin/fan_control.py
 Restart = always
 RestartSec = 5
 
@@ -120,7 +123,7 @@ echo -e "\e[1;32mPut the bluetooth devices into pairing mode and press ENTER to 
 read cont
 REGEXP="([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}"
 echo -e "\e[1;32m Search bluetooth devices \e[0m"
-timeout 10s bluetoothctl --scan on > scan.txt
+timeout 10s bluetoothctl -- scan on > scan.txt
 grep -E "mouse" /home/${USER}/scan.txt > mouse.txt
 grep -E "Keyboard" /home/${USER}/scan.txt > keyboard.txt
 mouse=$(grep -E -o -m 1 ${REGEXP} mouse.txt)
