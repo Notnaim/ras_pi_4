@@ -65,7 +65,7 @@ sudo /etc/init.d/smbd restart
 
 # fan control
 sudo mv /home/pi/ras_pi_4/fan_control.py /usr/bin/fan_control.py
-sudo chmod u+x /usr/bin/fan_ctrl.py
+sudo chmod u+x /usr/bin/fan_control.py
 sudo echo "[Unit]
 Description = PWM fan control
 After = default.target
