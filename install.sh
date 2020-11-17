@@ -45,17 +45,16 @@ echo -e "\e[1;32mCreating a shared folder\e[0m"
 sleep 5
 sudo apt install samba -y
 sudo cp /etc/samba/smb.conf /etc/samba/initial_smb.conf
-mkdir RPi4
-chmod -R 0770 /home/${USER}/RPi4
+chmod -R 0770 /home/${USER}
 sudo groupadd smbgrp
 sudo usermod -aG smbgrp ${USER}
-sudo chgrp smbgrp /home/${USER}/RPi4
+sudo chgrp smbgrp /home/${USER}
 echo -e "\e[1;32mCreating samba ${USER} user password\e[0m"
 sudo smbpasswd -a ${USER}
 
 sudo echo "
-[RPi4]
-path=/home/${USER}/RPi4
+[pi]
+path=/home/${USER}
 valid users=${USER}
 writable=yes
 read only=no
@@ -124,8 +123,8 @@ read cont
 REGEXP="([[:xdigit:]]{2}:){5}[[:xdigit:]]{2}"
 echo -e "\e[1;32m Search bluetooth devices \e[0m"
 timeout 10s bluetoothctl -- scan on > scan.txt
-grep -E "mouse" /home/${USER}/scan.txt > mouse.txt
-grep -E "Keyboard" /home/${USER}/scan.txt > keyboard.txt
+grep -E "20" /home/${USER}/scan.txt > mouse.txt  # 20 is digits in mouse MAC
+grep -E "27" /home/${USER}/scan.txt > keyboard.txt  # 27 is digits in keyboard MAC
 mouse=$(grep -E -o -m 1 ${REGEXP} mouse.txt)
 keyboard=$(grep -E -o -m 1 ${REGEXP} keyboard.txt)
 echo -e "\e[1;32m Mouse MAC: ${mouse} \e[0m"
@@ -138,6 +137,23 @@ bluetoothctl -- connect ${keyboard}
 bluetoothctl -- trust ${keyboard}
 rm mouse.txt keyboard.txt scan.txt
 
+
+# RetroPie installation
+git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
+cd RetroPie-Setup
+chmod +x retropie_setup.sh
+sudo ./retropie_setup.sh
+
+echo "
+[Desktop Entry]
+Name=RetroPie
+Comment=Application for managing and playing retro games
+Exec=emulationstation
+Icon=/home/${USER}/Pictures/retropie.png
+Terminal=false
+Type=Application
+Categories=Game;
+" > home/${USER}/Desktop/RetroPie
 
 # Manual setting
 sudo raspi-config
