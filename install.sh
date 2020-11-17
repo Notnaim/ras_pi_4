@@ -155,6 +155,7 @@ Type=Application
 Categories=Game;
 " > home/${USER}/Desktop/RetroPie
 
+
 # Manual setting
 sudo raspi-config
 
