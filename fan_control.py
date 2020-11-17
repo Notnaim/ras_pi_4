@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 
 FAN_PIN = 15  # Number based on the numbering system you have specified (BOARD or BCM)
-PWM_FREQ = 1000  # [Hz] Frequency of PWM
+PWM_FREQ = 25  # [Hz] Frequency of PWM
 DUTY_CYCLE_0 = 10  # Minimal D_C value to prevent fan noise without load
 CPU_TEMP_1, DUTY_CYCLE_1 = 50, 50  # [C] Temperature on which fan will be work with D_C = 50
 CPU_TEMP_2, DUTY_CYCLE_2 = 60, 75  # [C] Temperature on which fan will be work with D_C = 75
